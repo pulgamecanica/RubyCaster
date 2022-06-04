@@ -20,6 +20,6 @@ class Player
 
 	def draw
 		scale_position = @position / Game.scale
-		Circle.new(x: scale_position.x, y: scale_position.y, radius: 5, color: "#a0110a", z: 10)
+		Circle.new(x: scale_position.x, y: scale_position.y, radius: Game.tile_size / Game.scale / 4, color: "#a0110a", z: 20)
 	end
 end

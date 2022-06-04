@@ -3,7 +3,7 @@ require_relative 'Math.rb'
 require_relative 'Player.rb'
 require_relative 'MapObj.rb'
 
-set width: 1000, height: 1000, background: 'gray'
+set width: 400, height: 500, background: 'gray'
 
 class Game
   attr_reader :player
@@ -12,7 +12,7 @@ class Game
   @@global_fire_speed = 10 # 1 in every @@global_fire_speed are fired
   @@player_speed = 3 # pixels per update
   @@tile_size = 64
-  @@map_scale = 2
+  @@map_scale = 8
 
   @@angle0    = 0
   @@angle60   = Window.width
@@ -47,32 +47,33 @@ class Game
   end
   @@map = [
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1],
+    [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1],
+    [1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1],
+    [1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1],
+    [1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1],
+    [1, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1],
+    [1, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1],
+    [1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1],
     [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
   ]
 
 
   def initialize
-    @player = Player.new(Point.new(3 * @@tile_size, 3 * @@tile_size), 0, @@player_speed)
+    @player = Player.new(Point.new(1 * @@tile_size, 1 * @@tile_size), 60, @@player_speed)
     @key_up, @key_down, @key_left, @key_right, @fire = false
     @can_fire = @@global_fire_speed - 1
     @layout = Array.new
     @@map.each_with_index do |row, y|
       row.each_with_index do |elem, x|
-        @layout.append(choose_map_obj(elem, Point.new(x * @@tile_size / @@map_scale, y * @@tile_size / @@map_scale), Point.new(x, y), @@tile_size / @@map_scale - 1))
+        @layout.append(choose_map_obj(elem, Point.new(x * @@tile_size / @@map_scale, y * @@tile_size / @@map_scale), Point.new(x, y), @@tile_size / @@map_scale + 1))
       end
     end
+    @direction_horizontal = false
   end
 
   def choose_map_obj(id, position, map_position, size)
@@ -170,16 +171,23 @@ class Game
   end
 
   private
+
+    def wall_color(angle)
+      if (@direction_horizontal)
+        return angle < @@angle180 ? ("#9c6e36") : ("#83a832");
+      else
+        return (angle > @@angle90 && angle < @@angle270) ? ("#4d918b") : ("#684d91");
+      end
+    end
+
     def nearest_colision(angle)
       h_colision = (@player.position.y / @@tile_size).floor * @@tile_size
       h_colision += @@tile_size if angle > @@angle180
       v_colision = (@player.position.x / @@tile_size).floor * @@tile_size
       v_colision += @@tile_size if not angle > @@angle90 && angle < @@angle270 
-      # puts "Horizontal: [#{@player.position.x.floor}, #{h_colision}] - [#{(@player.position.x / @@tile_size).floor}, #{h_colision / @@tile_size}]"
-      # puts "Vertical: [#{v_colision}, #{@player.position.y.floor}] - [#{v_colision / @@tile_size}, #{(@player.position.y / @@tile_size).floor}]"
-      
       h_p = Point.new(@player.position.x + (@player.position.y - h_colision) / @@tangents[angle], h_colision)
       h_p.y -= 1  if angle < @@angle180
+      h_p.x += 1  if angle > @@angle90 && angle < @@angle270
       #NEXT HORIZONTAL
       while (check_boundaries(h_p))
         h_p = h_p + @@h_step[angle]
@@ -191,6 +199,7 @@ class Game
       end
       v_p = Point.new(v_colision, @player.position.y + (@player.position.x - v_colision) * @@tangents[angle])
       v_p.x -= 1  if angle > @@angle90 && angle < @@angle270
+      v_p.y += 1  if angle < @@angle180
       #NEXT VERTICAL
       while (check_boundaries(v_p))
         v_p = v_p + @@v_step[angle]
@@ -200,24 +209,40 @@ class Game
       else
         v_dist = ((@player.position.x - v_p.x).abs / @@cosines[angle]).abs
       end
-      # puts "[H #{h_dist}] vs [V #{v_dist}]"
       if v_dist < h_dist
+        @direction_horizontal = false
         return v_dist
       else
+        @direction_horizontal = true
         return h_dist
       end
     end
 
     def display_ray
-      dist = nearest_colision(@player.angle)
-      end_line = (@player.position / @@map_scale).add_vec(Vector.new(@player.angle, dist / @@map_scale))
-      Line.new(
-        x1: @player.position.x / @@map_scale, y1: @player.position.y / @@map_scale,
-        x2: end_line.x, y2: end_line.y,
-        width: 1,
-        color: 'lime',
-        z: 10
-      )
+      @@angle60.times do |i|
+        angle = (@player.angle - @@angle30 + i) % @@angle360
+        angle = @@angle360 + angle if angle < 0
+        dist = nearest_colision(angle)
+        end_line = (@player.position / @@map_scale).add_vec(Vector.new(angle, dist / @@map_scale))
+        Line.new(
+          x1: @player.position.x / @@map_scale, y1: @player.position.y / @@map_scale,
+          x2: end_line.x, y2: end_line.y,
+          width: 1,
+          color: 'lime',
+          z: 25
+        )
+        wall_height = dist * @@cosines[(i - @@angle30).abs];
+        wall_height = (@@tile_size / wall_height) * 220; #220 => distance to plane
+        wall_height /= 2
+        center = Window.height / 2
+        Line.new(
+          x1: i, y1: center - wall_height,
+          x2: i, y2: center + wall_height,
+          width: 1,
+          color: wall_color(angle),
+          z: 10
+          )
+      end
     end
 
     def update_player

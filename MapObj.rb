@@ -15,7 +15,7 @@ class Projectile
 
 	def draw
 		scale_position = @position / Game.scale
-		Circle.new(x: scale_position.x, y: scale_position.y, radius: 2, color: "#00a10a", z: 9)
+		Circle.new(x: scale_position.x, y: scale_position.y, radius: 2, color: "#cca10a", z: 40)
 	end
 end
 
@@ -31,7 +31,7 @@ class Wall
 	end
 
 	def draw
-		Square.new(x: @position.x, y: @position.y, size: @size, color: @color)
+		Square.new(x: @position.x, y: @position.y, size: @size, color: @color, z: 20)
 	end
 
 end
@@ -48,7 +48,7 @@ class Floor
 	end
 
 	def draw
-		Square.new(x: @position.x, y: @position.y, size: @size, color: @color)
+		Square.new(x: @position.x, y: @position.y, size: @size, color: @color, z: 20)
 	end
 
 end
