@@ -10,7 +10,8 @@ class Game
 
   @@projectiles = Array.new
   @@global_fire_speed = 10 # 1 in every @@global_fire_speed are fired
-  @@player_speed = 3 # pixels per update
+  @@player_speed = 5
+  @@rotation_speed = Window.width / 20
   @@tile_size = 64
   @@map_scale = 2
 
@@ -64,6 +65,16 @@ class Game
 
 
   def initialize
+    if (!ARGV[0].nil? && ARGV[0].to_i > 0 && ARGV[0].to_i < @@angle60)
+      puts "Rotation set to #{ARGV[0]}"
+      @@rotation_speed = ARGV[0].to_i
+    end
+    if (!ARGV[1].nil? && ARGV[1].to_i > 0 && ARGV[1].to_i < @@tile_size / 2)
+      puts "Speed set to #{ARGV[1]}"
+      @@player_speed = ARGV[1].to_i
+    end
+    puts "ruby Game.rb RotationSpeed: #{@@rotation_speed}, PlayerSpeed: #{@@player_speed}"
+    puts "LIMITS: rotation_speed [1..#{@@angle60}] | player_speed [1..#{@@tile_size / 2}]"
     @player = Player.new(Point.new(3 * @@tile_size, 3 * @@tile_size), 0, @@player_speed)
     @key_up, @key_down, @key_left, @key_right, @fire = false
     @can_fire = @@global_fire_speed - 1
@@ -234,8 +245,8 @@ class Game
     end
 
     def update_player
-      @player.angle += @@angle5 if @key_right
-      @player.angle -= @@angle5 if @key_left
+      @player.angle -= @@rotation_speed if @key_right
+      @player.angle += @@rotation_speed if @key_left
       mag = 0
       mag += @player.speed if @key_up
       mag -= @player.speed if @key_down
