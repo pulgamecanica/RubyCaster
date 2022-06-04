@@ -180,50 +180,37 @@ class Game
       
       h_p = Point.new(@player.position.x + (@player.position.y - h_colision) / @@tangents[angle], h_colision)
       h_p.y -= 1  if angle < @@angle180
-
-      h_tmp = h_p / @@map_scale
-      Square.new(x: h_tmp.x, y: h_tmp.y, size: 5, color: "red")
       #NEXT HORIZONTAL
       while (check_boundaries(h_p))
         h_p = h_p + @@h_step[angle]
-        h_tmp = h_p / @@map_scale
-        Square.new(x: h_tmp.x, y: h_tmp.y, size: 5, color: "red")
       end
-      Image.new(
-        'images/explosion.png',
-        x: h_tmp.x - 10,
-        y: h_tmp.y - 10,
-        height: 20,
-        width: 20,
-        z: 40,
-      )
-
+      if (h_p.x < 0 || h_p.y < 0 || @@map[h_p.y / @@tile_size].nil? ||h_p.x >= (@@map[h_p.y / @@tile_size].length * @@tile_size))
+        h_dist = Float::INFINITY
+      else
+        h_dist = ((@player.position.y - h_p.y).abs / @@sines[angle]).abs
+      end
       v_p = Point.new(v_colision, @player.position.y + (@player.position.x - v_colision) * @@tangents[angle])
       v_p.x -= 1  if angle > @@angle90 && angle < @@angle270
-      v_tmp = v_p / @@map_scale
-      Square.new(x: v_tmp.x, y: v_tmp.y, size: 5, color: "blue", z: 20)
       #NEXT VERTICAL
       while (check_boundaries(v_p))
         v_p = v_p + @@v_step[angle]
-        v_tmp = v_p / @@map_scale
-        Square.new(x: v_tmp.x, y: v_tmp.y, size: 5, color: "blue", z: 20)
       end
-      Image.new(
-        'images/explosion.png',
-        x: v_tmp.x - 10,
-        y: v_tmp.y - 10,
-        height: 20,
-        width: 20,
-        z: 40,
-      )
-
-      800
+      if (v_p.x < 0 || v_p.y < 0 || v_p.y >= (@@map.length * @@tile_size))
+        v_dist = Float::INFINITY
+      else
+        v_dist = ((@player.position.x - v_p.x).abs / @@cosines[angle]).abs
+      end
+      # puts "[H #{h_dist}] vs [V #{v_dist}]"
+      if v_dist < h_dist
+        return v_dist
+      else
+        return h_dist
+      end
     end
 
     def display_ray
-
       dist = nearest_colision(@player.angle)
-      end_line = (@player.position / @@map_scale).add_vec(Vector.new(@player.angle, dist))
+      end_line = (@player.position / @@map_scale).add_vec(Vector.new(@player.angle, dist / @@map_scale))
       Line.new(
         x1: @player.position.x / @@map_scale, y1: @player.position.y / @@map_scale,
         x2: end_line.x, y2: end_line.y,
