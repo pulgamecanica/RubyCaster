@@ -33,6 +33,7 @@
 
 ```sh
   git clone https://github.com/pulgamecanica/RubyCaster
+  cd RubyCaster
   ruby Game.rb
 ```
 
@@ -40,6 +41,7 @@
 
 ```sh
   git clone https://github.com/pulgamecanica/RubyCaster
+  cd RubyCaster
   git checkout single_ray_vizualiser
   ruby Game.rb
 ```
